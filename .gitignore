@@ -1,0 +1,19 @@
+# Python
+backend/venv/
+backend/.env
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Node/Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/.vercel/
+
+# Editor/OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
