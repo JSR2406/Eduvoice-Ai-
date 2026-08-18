@@ -92,11 +92,16 @@ export const generateAudio = async (payload) => {
 export const summarizeText = (payload) => api.post('/summarize', payload)
 export const translateText = (payload) => api.post('/translate', payload)
 export const rewriteForGrade = (payload) => api.post('/rewrite', payload)
-export const generateHomework = (payload) => api.post('/generate-homework', payload)
-export const generateAnnouncement = (payload) => api.post('/generate-announcement', payload)
-export const generateRevision = (payload) => api.post('/generate-revision', payload)
-export const generateReading = (payload) => api.post('/generate-reading', payload)
-export const generateAssembly = (payload) => api.post('/generate-assembly', payload)
+export const generateHomework = (data) => api.post('/generate-homework', data)
+export const generateAnnouncement = (data) => api.post('/generate-announcement', data)
+export const generateRevision = (data) => api.post('/generate-revision', data)
+export const generateReading = (data) => api.post('/generate-reading', data)
+export const generateAssembly = (data) => api.post('/generate-assembly', data)
+export const generateLesson = (data) => api.post('/generate-lesson', data)
+export const generateStory = (data) => api.post('/generate-story', data)
+export const generateQuiz = (data) => api.post('/generate-quiz', data)
+export const generateDebate = (data) => api.post('/generate-debate', data)
+export const chatWithAssistant = (payload) => api.post('/chat', payload)
 
 // ── PDF upload ───────────────────────────────────────────
 export const uploadPDF = (formData) => api.post('/upload-pdf', formData, {

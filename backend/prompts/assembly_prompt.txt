@@ -1,0 +1,13 @@
+Write a complete morning school assembly script.
+Theme or focus: {topic}
+
+Include:
+- Welcome and good morning greeting
+- Thought of the day (motivational quote with brief explanation)
+- One interesting fact or general knowledge point
+- School-related announcement placeholder
+- Closing motivational message
+
+Written as natural spoken language for a student presenter.
+Keep it energetic and positive. Under 250 words.
+Return ONLY the assembly script.

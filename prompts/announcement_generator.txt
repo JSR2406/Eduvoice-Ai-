@@ -1,0 +1,11 @@
+Write a professional school announcement script based on this topic:
+"{topic}"
+
+The announcement should:
+- Be formal and clear
+- Mention relevant details (dates, venue, participants)
+- End with a call to action or important reminder
+- Be suitable for reading aloud over PA system or as audio message
+- Be under 150 words
+
+Return ONLY the announcement text.

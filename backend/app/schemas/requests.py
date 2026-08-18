@@ -49,6 +49,22 @@ class AssemblyRequest(BaseModel):
     topic: Optional[str] = None
 
 
+class LessonRequest(BaseModel):
+    topic: str
+
+
+class StoryRequest(BaseModel):
+    topic: str
+
+
+class QuizRequest(BaseModel):
+    topic: str
+
+
+class DebateRequest(BaseModel):
+    topic: str
+
+
 class HistoryUpdateRequest(BaseModel):
     title:       Optional[str]  = None
     is_favorite: Optional[bool] = None
@@ -68,3 +84,7 @@ class TemplateUpdateRequest(BaseModel):
     emoji:       Optional[str]  = None
     category:    Optional[str]  = None
     is_favorite: Optional[bool] = None
+
+class ChatRequest(BaseModel):
+    message: str = Field(..., min_length=1, max_length=2000)
+    history: list[dict] = Field(default_factory=list)

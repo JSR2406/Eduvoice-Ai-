@@ -1,0 +1,7 @@
+Rewrite the following educational content for {grade} students.
+Adjust vocabulary, sentence complexity, and examples appropriately.
+Make it suitable for a teacher to read aloud as an audio lesson.
+Return ONLY the rewritten text, no explanations.
+
+TEXT:
+{text}

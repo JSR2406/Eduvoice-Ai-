@@ -1,0 +1,2 @@
+Create an interactive audio quiz script about the following topic: {topic}. 
+The script should be spoken aloud. Ask a question, pause (e.g., "Take a moment to think..."), and then reveal the answer with a brief explanation. Include 3 to 5 questions.

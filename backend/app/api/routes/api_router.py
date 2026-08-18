@@ -10,14 +10,42 @@ from app.schemas.requests import (
     SummarizeRequest, TranslateRequest, RewriteRequest,
     HomeworkRequest, AnnouncementRequest, RevisionRequest,
     ReadingRequest, AssemblyRequest,
-    HistoryUpdateRequest, TemplateCreateRequest, TemplateUpdateRequest
+    LessonRequest, StoryRequest, QuizRequest, DebateRequest,
+    HistoryUpdateRequest, TemplateCreateRequest, TemplateUpdateRequest,
+    ChatRequest
 )
-from app.services import tts_service, gemini_service
+from pydantic import BaseModel
+from typing import Dict, Any
+from app.services import sarvam_tts_service as tts_service  # Sarvam-primary 4-tier TTS
+from app.services import gemini_service
+from app.services.orchestrator import orchestrator_agent, OrchestratorResponse
 from app.database.supabase_client import get_db
+
+class ProcessContentRequest(BaseModel):
+    action: str
+    payload: Dict[str, Any]
 
 router = APIRouter()
 db = get_db()
 
+
+# ── System Routes ───────────────────────────────────────────────────────────
+
+@router.get("/health")
+async def health_check():
+    return {"status": "ok", "message": "EduVoice AI Backend is running"}
+
+@router.get("/agents")
+async def list_agents():
+    return {
+        "orchestrator": "Routes tasks to specialized agents",
+        "specialized_agents": list(orchestrator_agent.agents.keys()),
+        "status": "ready"
+    }
+
+@router.post("/process-content", response_model=OrchestratorResponse)
+async def process_content(req: ProcessContentRequest):
+    return await orchestrator_agent.process_content(req.action, req.payload)
 
 # ── TTS Routes ──────────────────────────────────────────────────────────────
 
@@ -50,25 +78,30 @@ async def generate_audio(req: GenerateAudioRequest):
         
         # 2. Save to history (if requested and user provided)
         if req.save_to_history and req.user_id:
-            # Upload to Supabase Storage
-            filename = f"audio_{uuid.uuid4().hex}.mp3"
-            path = f"{req.user_id}/{filename}"
-            
-            # Use public bucket 'audio_files'
-            db.storage.from_("audio_files").upload(path, audio_bytes, {"content-type": "audio/mpeg"})
-            audio_url = db.storage.from_("audio_files").get_public_url(path)
-            
-            # Insert into history table
-            db.table("audio_history").insert({
-                "user_id": req.user_id,
-                "title": req.title or "Untitled Audio",
-                "text_content": req.text,
-                "audio_url": audio_url,
-                "voice_id": req.voice_id,
-                "language": req.language,
-                "provider": provider,
-                "duration_secs": duration_secs,
-            }).execute()
+            try:
+                # Upload to Supabase Storage
+                filename = f"audio_{uuid.uuid4().hex}.mp3"
+                path = f"{req.user_id}/{filename}"
+                
+                # Use public bucket 'audio_files'
+                db.storage.from_("audio_files").upload(path, audio_bytes, {"content-type": "audio/mpeg"})
+                audio_url = db.storage.from_("audio_files").get_public_url(path)
+                
+                # Insert into history table
+                db.table("audio_history").insert({
+                    "user_id": req.user_id,
+                    "title": req.title or "Untitled Audio",
+                    "text_content": req.text,
+                    "audio_url": audio_url,
+                    "voice_id": req.voice_id,
+                    "language": req.language,
+                    "provider": provider,
+                    "duration_secs": duration_secs,
+                }).execute()
+            except Exception as e:
+                import logging
+                logging.getLogger(__name__).error(f"Supabase history saving failed: {e}")
+                # We continue since audio generation succeeded
 
         # Return audio directly
         return Response(content=audio_bytes, media_type="audio/mpeg")
@@ -80,6 +113,14 @@ async def generate_audio(req: GenerateAudioRequest):
 
 
 # ── Gemini AI Routes ────────────────────────────────────────────────────────
+
+@router.post("/chat")
+async def chat(req: ChatRequest):
+    try:
+        res = await gemini_service.chat_with_assistant(req.message, req.history)
+        return {"result": res}
+    except Exception as e:
+        raise HTTPException(500, str(e))
 
 @router.post("/summarize")
 async def summarize(req: SummarizeRequest):
@@ -152,6 +193,37 @@ async def generate_assembly(req: AssemblyRequest):
     except Exception as e:
         raise HTTPException(500, str(e))
 
+@router.post("/generate-lesson")
+async def generate_lesson(req: LessonRequest):
+    try:
+        res = await gemini_service.generate_lesson(req.topic)
+        return {"result": res}
+    except Exception as e:
+        raise HTTPException(500, str(e))
+
+@router.post("/generate-story")
+async def generate_story(req: StoryRequest):
+    try:
+        res = await gemini_service.generate_story(req.topic)
+        return {"result": res}
+    except Exception as e:
+        raise HTTPException(500, str(e))
+
+@router.post("/generate-quiz")
+async def generate_quiz(req: QuizRequest):
+    try:
+        res = await gemini_service.generate_quiz(req.topic)
+        return {"result": res}
+    except Exception as e:
+        raise HTTPException(500, str(e))
+
+@router.post("/generate-debate")
+async def generate_debate(req: DebateRequest):
+    try:
+        res = await gemini_service.generate_debate(req.topic)
+        return {"result": res}
+    except Exception as e:
+        raise HTTPException(500, str(e))
 
 # ── PDF Upload Route ────────────────────────────────────────────────────────
 

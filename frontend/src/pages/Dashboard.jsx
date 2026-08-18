@@ -7,6 +7,7 @@ import {
   BarChart2, Sparkles, Globe, Volume2,
 } from 'lucide-react'
 import { getHistory } from '../services/api'
+import VoiceAgentWidget from '../components/VoiceAgentWidget'
 
 const QUICK_TEMPLATES = [
   { icon: '📢', label: 'Announcement',   desc: 'Quick school update',     query: 'announcement' },
@@ -125,6 +126,11 @@ export default function Dashboard() {
               </Link>
             ))}
           </div>
+        </div>
+
+        {/* Real-Time Voice Agent */}
+        <div className="lg:col-span-3">
+           <VoiceAgentWidget />
         </div>
       </div>
 

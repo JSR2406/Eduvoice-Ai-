@@ -1,0 +1,6 @@
+Translate the following educational text into {language}.
+Keep the educational tone, make it natural for a teacher speaking to students.
+Return ONLY the translated text, nothing else.
+
+TEXT:
+{text}

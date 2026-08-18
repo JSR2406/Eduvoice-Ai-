@@ -9,9 +9,10 @@ import {
   Clock, AlignLeft, Wand2, Languages, GraduationCap,
 } from 'lucide-react'
 import {
-  fetchVoices, generateAudio,
+  fetchVoices, generateAudio, uploadPDF,
   summarizeText, translateText, rewriteForGrade,
   generateHomework, generateAnnouncement, generateRevision, generateReading, generateAssembly,
+  generateLesson, generateStory, generateQuiz, generateDebate
 } from '../services/api'
 
 const LANGUAGES = [
@@ -95,6 +96,11 @@ export default function GenerateAudio() {
   const [selectedGrade, setSelectedGrade] = useState('Grade 7-8')
   const [translateTarget, setTranslateTarget] = useState('hi')
   const [showGradeMenu, setShowGradeMenu] = useState(false)
+
+  // Script generation state
+  const [topicInput, setTopicInput] = useState('')
+  const [scriptCategory, setScriptCategory] = useState('homework')
+  const fileInputRef = useRef(null)
 
   // Pre-fill template
   useEffect(() => {
@@ -244,11 +250,82 @@ export default function GenerateAudio() {
   const aiSummarize   = () => runAI(summarizeText,      { text }, 'Text summarized! ✨')
   const aiTranslate   = () => runAI(translateText,      { text, target_language: translateTarget }, `Translated to ${LANGUAGES.find(l => l.code === translateTarget)?.label}!`)
   const aiRewrite     = (g) => runAI(rewriteForGrade,  { text, grade: g }, `Rewritten for ${g}!`)
-  const aiHomework    = () => runAI(generateHomework,   { topic: text }, 'Homework generated!')
-  const aiAnnouncement= () => runAI(generateAnnouncement, { topic: text }, 'Announcement generated!')
-  const aiRevision    = () => runAI(generateRevision,   { topic: text }, 'Revision notes generated!')
-  const aiReading     = () => runAI(generateReading,    { topic: text }, 'Reading passage generated!')
-  const aiAssembly    = () => runAI(generateAssembly,   { topic: text }, 'Assembly script generated!')
+
+  const runAIForScript = async (fn, payload, successMsg) => {
+    if (!payload.topic?.trim()) { toast.error('Please provide a topic or document.'); return }
+    setAiLoading(fn.name || 'ai_task')
+    try {
+      const r = await fn(payload)
+      const result = r.data?.result || r.data?.text || ''
+      if (result) { setText(result); toast.success(successMsg) }
+    } catch (err) {
+      toast.error(err.response?.data?.detail || 'Script generation failed.')
+    } finally {
+      setAiLoading(null)
+    }
+  }
+
+  const handlePdfUpload = async (e) => {
+    const file = e.target.files[0]
+    if (!file) return
+    if (file.type !== 'application/pdf') {
+      toast.error('Only PDF files are supported.')
+      return
+    }
+
+    setAiLoading('uploadPdf')
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+      const uploadRes = await uploadPDF(formData)
+      const extractedText = uploadRes.data?.text
+      if (!extractedText) throw new Error("No text extracted.")
+      
+      toast.success('PDF extracted! Generating lesson script...')
+      // Automatically generate a lesson from the PDF content
+      await runAIForScript(generateLesson, { topic: extractedText.substring(0, 8000) }, 'Lesson script generated from PDF!')
+    } catch (err) {
+      toast.error(err.response?.data?.detail || err.message || 'PDF processing failed.')
+      setAiLoading(null)
+    }
+    // Reset file input
+    if (fileInputRef.current) fileInputRef.current.value = ''
+  }
+
+  const handleGenerateScript = () => {
+    if (!topicInput.trim()) return;
+    switch (scriptCategory) {
+      case 'homework':
+        runAIForScript(generateHomework, { topic: topicInput }, 'Homework script generated!');
+        break;
+      case 'announcement':
+        runAIForScript(generateAnnouncement, { topic: topicInput }, 'Announcement script generated!');
+        break;
+      case 'revision':
+        runAIForScript(generateRevision, { topic: topicInput }, 'Revision script generated!');
+        break;
+      case 'assembly':
+        runAIForScript(generateAssembly, { topic: topicInput }, 'Assembly script generated!');
+        break;
+      case 'reading':
+        runAIForScript(generateReading, { topic: topicInput }, 'Reading script generated!');
+        break;
+      case 'lesson':
+        runAIForScript(generateLesson, { topic: topicInput }, 'Lesson script generated!');
+        break;
+      case 'story':
+        runAIForScript(generateStory, { topic: topicInput }, 'Story script generated!');
+        break;
+      case 'quiz':
+        runAIForScript(generateQuiz, { topic: topicInput }, 'Quiz script generated!');
+        break;
+      case 'debate':
+        runAIForScript(generateDebate, { topic: topicInput }, 'Debate script generated!');
+        break;
+      default:
+        break;
+    }
+  }
 
   const pct = duration ? (currentTime / duration) * 100 : 0
   const fmt = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`
@@ -265,9 +342,77 @@ export default function GenerateAudio() {
       <div className="grid lg:grid-cols-5 gap-6">
         {/* Left: Text editor */}
         <div className="lg:col-span-3 space-y-4">
+          {/* Generate Script Section */}
+          <div className="card p-4">
+            <div className="flex items-center justify-between mb-3">
+              <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-2">
+                <Wand2 size={14} className="text-indigo-400" />
+                Generate Script by Category
+              </p>
+              
+              {/* PDF Upload Button */}
+              <input 
+                type="file" 
+                accept=".pdf" 
+                ref={fileInputRef} 
+                onChange={handlePdfUpload} 
+                className="hidden" 
+              />
+              <button 
+                onClick={() => fileInputRef.current?.click()}
+                disabled={!!aiLoading}
+                className="btn-secondary text-xs py-1 px-3 border border-indigo-500/30 hover:border-indigo-500/60"
+                title="Upload a PDF resource to auto-generate a lesson script"
+              >
+                {aiLoading === 'uploadPdf' ? <Loader2 size={12} className="animate-spin" /> : <FileText size={12} className="text-indigo-400" />}
+                Upload PDF Resource
+              </button>
+            </div>
+            
+            <div className="flex flex-col sm:flex-row gap-3">
+              <select
+                className="input-field shrink-0 w-full sm:w-auto min-w-[150px] h-auto py-2 px-3 text-sm"
+                value={scriptCategory}
+                onChange={(e) => setScriptCategory(e.target.value)}
+              >
+                <option value="homework">Homework</option>
+                <option value="announcement">Announcement</option>
+                <option value="revision">Revision</option>
+                <option value="assembly">Assembly</option>
+                <option value="reading">Reading</option>
+                <option value="lesson">Lesson Plan</option>
+                <option value="story">Story</option>
+                <option value="quiz">Quiz</option>
+                <option value="debate">Debate</option>
+              </select>
+              <input
+                type="text"
+                placeholder="Enter topic (e.g., 'Photosynthesis')"
+                className="input-field flex-1 min-w-[200px] h-auto py-2 px-3 text-sm"
+                value={topicInput}
+                onChange={(e) => setTopicInput(e.target.value)}
+                onKeyDown={(e) => {
+                   if (e.key === 'Enter') handleGenerateScript()
+                }}
+              />
+              <button
+                onClick={handleGenerateScript}
+                disabled={!!aiLoading || !topicInput.trim()}
+                className="btn-primary py-2 px-4 text-sm"
+              >
+                {aiLoading && ['generateHomework', 'generateAnnouncement', 'generateRevision', 'generateAssembly', 'generateReading'].includes(aiLoading) ? (
+                  <Loader2 size={16} className="animate-spin" />
+                ) : (
+                  <Sparkles size={16} />
+                )}
+                Generate
+              </button>
+            </div>
+          </div>
+
           {/* AI Toolbar */}
           <div className="card p-4">
-            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">AI Enhance</p>
+            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">AI Enhance Content</p>
             <div className="flex flex-wrap gap-2">
               <button
                 onClick={aiSummarize}
@@ -325,27 +470,6 @@ export default function GenerateAudio() {
                   </div>
                 )}
               </div>
-
-              <button onClick={aiHomework}     disabled={!!aiLoading} className="btn-secondary text-xs py-1.5 px-3">
-                {aiLoading === 'generateHomework'     ? <Loader2 size={12} className="animate-spin" /> : <FileText size={12} />}
-                Homework
-              </button>
-              <button onClick={aiAnnouncement} disabled={!!aiLoading} className="btn-secondary text-xs py-1.5 px-3">
-                {aiLoading === 'generateAnnouncement' ? <Loader2 size={12} className="animate-spin" /> : <Mic2 size={12} />}
-                Announcement
-              </button>
-              <button onClick={aiRevision}     disabled={!!aiLoading} className="btn-secondary text-xs py-1.5 px-3">
-                {aiLoading === 'generateRevision'     ? <Loader2 size={12} className="animate-spin" /> : <BookOpen size={12} />}
-                Revision
-              </button>
-              <button onClick={aiAssembly}     disabled={!!aiLoading} className="btn-secondary text-xs py-1.5 px-3">
-                {aiLoading === 'generateAssembly'     ? <Loader2 size={12} className="animate-spin" /> : <Wand2 size={12} />}
-                Assembly
-              </button>
-              <button onClick={aiReading}      disabled={!!aiLoading} className="btn-secondary text-xs py-1.5 px-3">
-                {aiLoading === 'generateReading'      ? <Loader2 size={12} className="animate-spin" /> : <AlignLeft size={12} />}
-                Reading
-              </button>
             </div>
           </div>
 

@@ -1,0 +1,10 @@
+Write an engaging reading practice passage for students on: "{topic}"
+
+Requirements:
+- Grade-appropriate vocabulary
+- Interesting and educational narrative
+- 150-200 words
+- Written to be read aloud with natural pauses
+- Include 2-3 comprehension check phrases like "Think about this…"
+
+Return ONLY the reading passage text.

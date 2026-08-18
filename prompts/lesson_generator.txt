@@ -1,0 +1,2 @@
+Create a detailed, engaging audio lesson plan script about the following topic: {topic}. 
+The script should be designed to be spoken aloud. Start with an engaging hook, cover the main concepts clearly, and end with a quick summary. Keep it conversational.

@@ -1,0 +1,10 @@
+Generate clear, well-structured homework instructions for students based on this topic/description:
+"{topic}"
+
+Include:
+- Subject and topic
+- Clear task instructions (numbered steps)
+- Submission deadline placeholder
+- Materials needed (if any)
+
+Write it as a teacher would speak it aloud. Under 200 words. Return ONLY the homework text.

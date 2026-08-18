@@ -6,6 +6,7 @@ import {
   User, School, BookOpen, Globe, Mic2, Camera,
   Save, Loader2, Mail, Phone, MapPin,
 } from 'lucide-react'
+import { supabase } from '../services/supabaseClient'
 
 const SUBJECTS = ['Mathematics', 'Science', 'English', 'Hindi', 'Social Science', 'Physics', 'Chemistry', 'Biology', 'History', 'Geography', 'Computer Science', 'Art', 'Physical Education']
 const LANGUAGES = ['English', 'Hindi', 'Marathi', 'Gujarati', 'Tamil']
@@ -40,12 +41,37 @@ export default function Profile() {
     }
   }
 
-  const handleAvatarChange = (e) => {
+  const handleAvatarChange = async (e) => {
     const file = e.target.files?.[0]
     if (file) {
       const url = URL.createObjectURL(file)
       setAvatarPreview(url)
-      // TODO: upload to Supabase storage
+      
+      if (user?.isGuest) {
+         toast.success('Avatar preview updated! (Guest mode)')
+         return
+      }
+      
+      try {
+        const fileExt = file.name.split('.').pop()
+        const fileName = `${user.id}-${Math.random()}.${fileExt}`
+        const filePath = `${fileName}`
+
+        const { error: uploadError } = await supabase.storage
+          .from('avatars')
+          .upload(filePath, file, { upsert: true })
+
+        if (uploadError) throw uploadError
+
+        const { data } = supabase.storage
+          .from('avatars')
+          .getPublicUrl(filePath)
+
+        await updateProfile({ avatar_url: data.publicUrl })
+        toast.success('Avatar uploaded successfully! ✅')
+      } catch (err) {
+        toast.error('Error uploading avatar: ' + err.message)
+      }
     }
   }
 

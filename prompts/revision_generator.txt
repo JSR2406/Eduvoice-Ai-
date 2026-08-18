@@ -1,0 +1,10 @@
+Create concise audio revision notes for students on this topic: "{topic}"
+
+Include:
+- Key definitions (3-5)
+- Important points to remember (bulleted, read-aloud style)
+- One memorable example or analogy
+- Quick recap at the end
+
+Format it as natural spoken audio — no markdown, no bullet symbols, just flowing sentences.
+Under 300 words. Return ONLY the revision script.

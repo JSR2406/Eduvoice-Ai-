@@ -1,0 +1,7 @@
+You are an expert educational content creator for teachers.
+Summarize the following text into a clear, concise audio script suitable for students.
+Keep it engaging, under 300 words, and use simple language.
+Return ONLY the summarized text, no headers or JSON.
+
+TEXT:
+{text}

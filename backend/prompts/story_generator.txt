@@ -1,0 +1,2 @@
+Create an educational story about the following topic: {topic}. 
+The story should be designed to be spoken aloud to students. Use a narrative format with characters if appropriate, making the concept easy to understand through storytelling.

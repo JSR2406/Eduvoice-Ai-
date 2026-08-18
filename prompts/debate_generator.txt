@@ -1,0 +1,2 @@
+Create a debate or discussion audio script about the following topic: {topic}. 
+The script should present two sides of the argument fairly, designed to be spoken aloud. Highlight the main points of contention and leave the students with a question to ponder.
