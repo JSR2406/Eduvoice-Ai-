@@ -32,12 +32,7 @@ class Settings(BaseSettings):
     redis_url: str = "redis://localhost:6379/0"
 
     # ── App ────────────────────────────────────────────────────────────────
-    cors_origins: str = (
-        "http://localhost:5173,"
-        "https://eduvoice-skillsbuild.vercel.app,"
-        "https://frontend-n6rfwgrao-invicis-projects.vercel.app,"
-        "https://eduvoice-skillsbuild.vercel.app/"
-    )
+    cors_origins: str = "*"
     secret_key: str = "changeme"
     debug:      bool = True
 

@@ -17,6 +17,7 @@ const History        = lazy(() => import('./pages/History'))
 const Templates      = lazy(() => import('./pages/Templates'))
 const Profile        = lazy(() => import('./pages/Profile'))
 const Settings       = lazy(() => import('./pages/Settings'))
+const Pricing        = lazy(() => import('./pages/Pricing'))
 
 // Route guards
 function PrivateRoute({ children }) {
@@ -52,6 +53,7 @@ export default function App() {
               <Route path="templates"     element={<Templates />} />
               <Route path="profile"       element={<Profile />} />
               <Route path="settings"      element={<Settings />} />
+              <Route path="pricing"       element={<Pricing />} />
             </Route>
 
             <Route path="*" element={<Navigate to="/" replace />} />

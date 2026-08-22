@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Outlet, NavLink, useNavigate } from 'react-router-dom'
 import {
   LayoutDashboard, Mic2, BookOpen, Clock, Settings, User,
-  Menu, X, LogOut, Moon, Sun, Zap, FolderOpen,
+  Menu, X, LogOut, Moon, Sun, Zap, FolderOpen, CreditCard, Coins
 } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { useTheme } from '../../context/ThemeContext'
@@ -12,6 +12,7 @@ const navItems = [
   { to: '/generate',   icon: Mic2,            label: 'Generate Audio' },
   { to: '/templates',  icon: BookOpen,         label: 'Templates' },
   { to: '/history',    icon: Clock,            label: 'History' },
+  { to: '/pricing',    icon: CreditCard,       label: 'Pricing & Plans' },
   { to: '/profile',    icon: User,             label: 'Profile' },
   { to: '/settings',   icon: Settings,         label: 'Settings' },
 ]
@@ -61,7 +62,7 @@ export default function AppLayout() {
               className="font-bold text-base"
               style={{ fontFamily: "'Plus Jakarta Sans',sans-serif" }}
             >
-              <span className="gradient-text">EduVoice</span>
+              <span className="gradient-text">VoxGuru</span>
               <span className="text-slate-300"> AI</span>
             </span>
           </div>
@@ -156,7 +157,11 @@ export default function AppLayout() {
             <Menu size={20} />
           </button>
           <div className="hidden lg:block" />
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm font-medium">
+              <Coins size={14} />
+              <span>1,000 Credits</span>
+            </div>
             <span className="badge" style={{ background: 'rgba(99,102,241,0.15)', color: '#818cf8' }}>
               <Zap size={10} />
               Pro Plan

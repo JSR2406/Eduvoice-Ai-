@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
   const loadProfile = useCallback(async (userId) => {
     if (!userId) return
     if (userId === 'guest') {
-      setProfile({ id: 'guest', full_name: 'Guest Educator', school: 'EduVoice Demo School', email: 'guest@eduvoice.ai' })
+      setProfile({ id: 'guest', full_name: 'Guest Educator', school: 'VoxGuru Demo School', email: 'guest@voxguru.ai' })
       return
     }
     const { data } = await supabase
@@ -30,36 +30,36 @@ export const AuthProvider = ({ children }) => {
   }, [])
 
   useEffect(() => {
-    const isGuestSession = localStorage.getItem('eduvoice_is_guest') === 'true'
+    const isGuestSession = localStorage.getItem('voxguru_is_guest') === 'true'
     if (isGuestSession) {
-      setUser({ id: 'guest', email: 'guest@eduvoice.ai', user_metadata: { full_name: 'Guest Educator' }, isGuest: true })
-      setProfile({ id: 'guest', full_name: 'Guest Educator', school: 'EduVoice Demo School', email: 'guest@eduvoice.ai' })
+      setUser({ id: 'guest', email: 'guest@voxguru.ai', user_metadata: { full_name: 'Guest Educator' }, isGuest: true })
+      setProfile({ id: 'guest', full_name: 'Guest Educator', school: 'VoxGuru Demo School', email: 'guest@voxguru.ai' })
       setLoading(false)
     }
 
     supabase.auth.getSession().then(({ data: { session } }) => {
-      if (localStorage.getItem('eduvoice_is_guest') === 'true') return
+      if (localStorage.getItem('voxguru_is_guest') === 'true') return
       const u = session?.user ?? null
       setUser(u)
       if (u) {
-        localStorage.setItem('eduvoice_token', session.access_token)
+        localStorage.setItem('voxguru_token', session.access_token)
         loadProfile(u.id)
       }
       setLoading(false)
     }).catch(err => {
       console.warn('Supabase auth error:', err)
-      if (!localStorage.getItem('eduvoice_is_guest') === 'true') setLoading(false)
+      if (!localStorage.getItem('voxguru_is_guest') === 'true') setLoading(false)
     })
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (localStorage.getItem('eduvoice_is_guest') === 'true') return
+      if (localStorage.getItem('voxguru_is_guest') === 'true') return
       const u = session?.user ?? null
       setUser(u)
       if (u) {
-        localStorage.setItem('eduvoice_token', session.access_token)
+        localStorage.setItem('voxguru_token', session.access_token)
         loadProfile(u.id)
       } else {
-        localStorage.removeItem('eduvoice_token')
+        localStorage.removeItem('voxguru_token')
         setProfile(null)
       }
     })
@@ -94,9 +94,9 @@ export const AuthProvider = ({ children }) => {
   }
 
   const signInGuest = () => {
-    localStorage.setItem('eduvoice_is_guest', 'true')
-    setUser({ id: 'guest', email: 'guest@eduvoice.ai', user_metadata: { full_name: 'Guest Educator' }, isGuest: true })
-    setProfile({ id: 'guest', full_name: 'Guest Educator', school: 'EduVoice Demo School', email: 'guest@eduvoice.ai' })
+    localStorage.setItem('voxguru_is_guest', 'true')
+    setUser({ id: 'guest', email: 'guest@voxguru.ai', user_metadata: { full_name: 'Guest Educator' }, isGuest: true })
+    setProfile({ id: 'guest', full_name: 'Guest Educator', school: 'VoxGuru Demo School', email: 'guest@voxguru.ai' })
     toast.success('Signed in as Guest! 🚀')
   }
 
@@ -113,8 +113,8 @@ export const AuthProvider = ({ children }) => {
   }
 
   const signOut = async () => {
-    if (localStorage.getItem('eduvoice_is_guest') === 'true') {
-      localStorage.removeItem('eduvoice_is_guest')
+    if (localStorage.getItem('voxguru_is_guest') === 'true') {
+      localStorage.removeItem('voxguru_is_guest')
       setUser(null)
       setProfile(null)
       toast.success('Signed out successfully')

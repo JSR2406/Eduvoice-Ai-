@@ -16,14 +16,14 @@ const features = [
 ]
 
 const howItWorks = [
-  { step: '01', title: 'Type or Upload',      desc: 'Type your lesson content or upload a PDF — EduVoice extracts and understands it.' },
+  { step: '01', title: 'Type or Upload',      desc: 'Type your lesson content or upload a PDF — VoxGuru extracts and understands it.' },
   { step: '02', title: 'AI Enhances It',      desc: 'Our AI summarizes, rewrites for grade level, or translates your content.' },
   { step: '03', title: 'Generate Audio',      desc: 'Choose voice, language, speed and emotion, then generate natural AI speech.' },
   { step: '04', title: 'Share Instantly',     desc: 'Download MP3, copy a link, generate QR, or share via WhatsApp in seconds.' },
 ]
 
 const testimonials = [
-  { name: 'Priya Sharma',     role: 'Science Teacher, Delhi',    text: 'EduVoice AI saves me 3 hours every week. My students love the audio lessons!', rating: 5 },
+  { name: 'Priya Sharma',     role: 'Science Teacher, Delhi',    text: 'VoxGuru AI saves me 3 hours every week. My students love the audio lessons!', rating: 5 },
   { name: 'Rajesh Nair',      role: 'Principal, Mumbai School',  text: 'Morning assembly scripts are now done in 2 minutes. Game changer for our school.', rating: 5 },
   { name: 'Meena Patel',      role: 'English Teacher, Ahmedabad',text: 'The Hindi and Gujarati voice quality is incredible. Perfect for regional language classes.', rating: 5 },
 ]
@@ -66,7 +66,7 @@ export default function Landing() {
             <Mic2 size={18} className="text-white" />
           </div>
           <span className="font-bold text-lg" style={{ fontFamily: "'Plus Jakarta Sans',sans-serif" }}>
-            <span className="gradient-text">EduVoice</span>
+            <span className="gradient-text">VoxGuru</span>
             <span className="text-slate-300"> AI</span>
           </span>
         </div>
@@ -121,7 +121,7 @@ export default function Landing() {
           </h1>
 
           <p className="text-lg lg:text-xl text-slate-400 mb-10 max-w-2xl mx-auto leading-relaxed">
-            EduVoice AI helps teachers convert text into professional-sounding audio for lessons,
+            VoxGuru AI helps teachers convert text into professional-sounding audio for lessons,
             announcements, homework, and more — in 5 Indian languages.
           </p>
 
@@ -154,7 +154,7 @@ export default function Landing() {
               <div className="w-3 h-3 rounded-full bg-red-500" />
               <div className="w-3 h-3 rounded-full bg-yellow-500" />
               <div className="w-3 h-3 rounded-full" style={{ background: '#34d399' }} />
-              <span className="text-xs text-slate-500 ml-2">EduVoice AI — Live Preview</span>
+              <span className="text-xs text-slate-500 ml-2">VoxGuru AI — Live Preview</span>
             </div>
             <div className="flex items-end gap-1 h-16 justify-center mb-4">
               {BARS.map((b, i) => (
@@ -327,7 +327,7 @@ export default function Landing() {
             Ready to Transform Your Teaching?
           </h2>
           <p className="text-slate-400 text-lg mb-8">
-            Join 10,000+ teachers already saving time with EduVoice AI.
+            Join 10,000+ teachers already saving time with VoxGuru AI.
           </p>
           <Link to="/register" className="btn-primary text-base py-3 px-10 glow-purple">
             <Zap size={18} />
@@ -341,7 +341,7 @@ export default function Landing() {
         className="py-8 px-6 lg:px-12 text-center text-slate-600 text-sm border-t"
         style={{ borderColor: 'rgba(99,102,241,0.1)' }}
       >
-        <p>© 2025 EduVoice AI. Built with ❤️ for Teachers across India.</p>
+        <p>© 2025 VoxGuru AI. Built with ❤️ for Teachers across India.</p>
       </footer>
     </div>
   )

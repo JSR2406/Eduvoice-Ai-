@@ -37,7 +37,7 @@ export default function ForgotPassword() {
               <Mic2 size={22} className="text-white" />
             </div>
             <span className="text-xl font-bold" style={{ fontFamily: "'Plus Jakarta Sans',sans-serif" }}>
-              <span className="gradient-text">EduVoice</span><span className="text-slate-300"> AI</span>
+              <span className="gradient-text">VoxGuru</span><span className="text-slate-300"> AI</span>
             </span>
           </div>
           <h1 className="text-2xl font-extrabold text-slate-100 mb-2">Reset Password</h1>

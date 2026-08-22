@@ -5,11 +5,11 @@ const ThemeContext = createContext(null)
 export const useTheme = () => useContext(ThemeContext)
 
 export const ThemeProvider = ({ children }) => {
-  const [theme, setTheme] = useState(() => localStorage.getItem('eduvoice_theme') || 'dark')
+  const [theme, setTheme] = useState(() => localStorage.getItem('voxguru_theme') || 'dark')
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', theme === 'dark')
-    localStorage.setItem('eduvoice_theme', theme)
+    localStorage.setItem('voxguru_theme', theme)
   }, [theme])
 
   const toggleTheme = () => setTheme((t) => (t === 'dark' ? 'light' : 'dark'))

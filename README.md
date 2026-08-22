@@ -1,10 +1,24 @@
-# 🎙️ EduVoice AI — Powered by Sarvam AI
+# 🎙️ VoxGuru AI — Powered by Sarvam AI
 
 **AI Voice Content Creator for Teachers** | Built on India's Sovereign AI Infrastructure
 
 [![Tests](https://github.com/JSR2406/Eduvoice-Ai-/actions/workflows/test_and_deploy.yml/badge.svg)](https://github.com/JSR2406/Eduvoice-Ai-/actions)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-VoxGuru%20AI-6366f1?style=flat&logo=vercel)](https://eduvoice-ai-app.vercel.app)
+[![API](https://img.shields.io/badge/Backend%20API-Live-34d399?style=flat&logo=fastapi)](https://eduvoice-ai-api.vercel.app)
 
-EduVoice AI is a production-ready Full Stack application that helps teachers convert educational text into natural-sounding speech in 22+ Indian languages. Originally built for the **IBM SkillsBuild FDP on Agentic AI**, it now runs on **Sarvam AI's sovereign Indian AI infrastructure** — enabling native multilingual support, drastically lower costs, and alignment with the IndiaAI Mission.
+## 🌐 Live Deployment
+
+| Service | URL | Status |
+|---------|-----|--------|
+| 🎙️ **Frontend App** | **[eduvoice-ai-app.vercel.app](https://eduvoice-ai-app.vercel.app)** | ✅ Live |
+| ⚡ **Backend API** | **[eduvoice-ai-api.vercel.app](https://eduvoice-ai-api.vercel.app)** | ✅ Live |
+| 🔬 **API Health Check** | [/api/sarvam-test/health](https://eduvoice-ai-api.vercel.app/api/sarvam-test/health) | ✅ Live |
+
+> **Try it instantly** — No account needed. Click **"Test Platform without Login"** on the app to explore as a guest.
+
+---
+
+VoxGuru AI is a production-ready Full Stack application that helps teachers convert educational text into natural-sounding speech in 22+ Indian languages. Originally built for the **IBM SkillsBuild FDP on Agentic AI**, it now runs on **Sarvam AI's sovereign Indian AI infrastructure** — enabling native multilingual support, drastically lower costs, and alignment with the IndiaAI Mission.
 
 ---
 
@@ -27,13 +41,13 @@ Teachers in diverse classrooms spend countless hours modifying lesson plans, cre
 
 ## 💡 Solution
 
-EduVoice AI introduces a specialized multi-agent AI system designed exclusively for educators. With built-in AI agents for summarizing, translating, simplifying, and generating custom content (Lesson Plans, Quizzes, Stories, Debates), teachers can effortlessly generate high-quality audio tailored to their exact classroom needs. It also features a **PDF-to-Lesson engine**, allowing teachers to upload raw textbooks/PDFs and automatically generate fully structured audio lessons.
+VoxGuru AI introduces a specialized multi-agent AI system designed exclusively for educators. With built-in AI agents for summarizing, translating, simplifying, and generating custom content (Lesson Plans, Quizzes, Stories, Debates), teachers can effortlessly generate high-quality audio tailored to their exact classroom needs. It also features a **PDF-to-Lesson engine**, allowing teachers to upload raw textbooks/PDFs and automatically generate fully structured audio lessons.
 
 ---
 
 ## 🤖 Agentic AI Workflow
 
-EduVoice AI employs a robust multi-agent architecture. An **Orchestrator Agent** dynamically routes user requests to **Specialized Agents** to handle precise tasks. 
+VoxGuru AI employs a robust multi-agent architecture. An **Orchestrator Agent** dynamically routes user requests to **Specialized Agents** to handle precise tasks. 
 
 ```mermaid
 graph TD
@@ -78,7 +92,7 @@ We applied Computational Thinking principles to engineer this solution:
 - **AI/LLM Engine**: Google Gemini 1.5 Flash (via OpenRouter) mapped via specialized prompt engineering templates.
 - **Audio Generation**: ElevenLabs API with cascading fallbacks to OpenRouter TTS and Microsoft Edge TTS. Features native Indian accents (e.g., Neerja for English-India, Swara for Hindi).
 - **Database & Storage**: Supabase (PostgreSQL, Storage Buckets) for user auth and audio file management.
-- **Deployment**: Vercel (Frontend & Serverless Backend)
+- **Deployment**: Vercel — Frontend at [eduvoice-ai-app.vercel.app](https://eduvoice-ai-app.vercel.app) · API at [eduvoice-ai-api.vercel.app](https://eduvoice-ai-api.vercel.app)
 
 ---
 
@@ -94,7 +108,7 @@ We applied Computational Thinking principles to engineer this solution:
 
 ## 📈 Results & Impact
 
-| Metric | Before EduVoice | After EduVoice | Improvement |
+| Metric | Before VoxGuru | After VoxGuru | Improvement |
 |---|---|---|---|
 | **Audio Content Creation** | 45-60 mins / lesson | < 2 mins / lesson | **~96% faster** |
 | **PDF Extraction to Lesson**| Manual reading/typing| Automated 1-Click | **Revolutionary** |
@@ -155,7 +169,7 @@ npm run dev
 | POST | `/api/sarvam-test/test-tts` | Test Bulbul v3 TTS |
 | POST | `/api/sarvam-test/test-translation` | Test Mayura translation |
 | GET | `/api/sarvam-test/test-document` | Document AI capabilities |
-| GET | `/api/sarvam-test/test-full-workflow` | End-to-end EduVoice pipeline |
+| GET | `/api/sarvam-test/test-full-workflow` | End-to-end VoxGuru pipeline |
 | GET | `/api/sarvam-test/test-report` | Full test report for Startup Program |
 
 ---

@@ -214,7 +214,7 @@ export default function GenerateAudio() {
     if (!audioBlob) return
     const link = document.createElement('a')
     link.href = URL.createObjectURL(audioBlob)
-    link.download = `eduvoice-${Date.now()}.mp3`
+    link.download = `voxguru-${Date.now()}.mp3`
     link.click()
     toast.success('Downloading MP3…')
   }
@@ -223,8 +223,8 @@ export default function GenerateAudio() {
     if (!audioUrl) return
     if (navigator.share) {
       try {
-        const file = new File([audioBlob], 'eduvoice.mp3', { type: 'audio/mpeg' })
-        await navigator.share({ files: [file], title: 'EduVoice AI Audio' })
+        const file = new File([audioBlob], 'voxguru.mp3', { type: 'audio/mpeg' })
+        await navigator.share({ files: [file], title: 'VoxGuru AI Audio' })
       } catch (_) {}
     } else {
       await navigator.clipboard.writeText(window.location.href)

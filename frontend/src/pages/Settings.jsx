@@ -66,7 +66,7 @@ export default function Settings() {
   const handleSave = async () => {
     setSaving(true)
     await new Promise((r) => setTimeout(r, 800))
-    localStorage.setItem('eduvoice_settings', JSON.stringify(settings))
+    localStorage.setItem('voxguru_settings', JSON.stringify(settings))
     toast.success('Settings saved! ✅')
     setSaving(false)
   }
@@ -80,7 +80,7 @@ export default function Settings() {
         <h1 className="text-2xl font-extrabold text-slate-100" style={{ fontFamily: "'Plus Jakarta Sans',sans-serif" }}>
           Settings
         </h1>
-        <p className="text-slate-500 text-sm mt-1">Customize EduVoice AI to your workflow</p>
+        <p className="text-slate-500 text-sm mt-1">Customize VoxGuru AI to your workflow</p>
       </div>
 
       <div className="space-y-5">

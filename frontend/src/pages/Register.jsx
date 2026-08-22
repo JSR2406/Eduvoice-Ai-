@@ -102,7 +102,7 @@ export default function Register() {
               <Mic2 size={22} className="text-white" />
             </div>
             <span className="text-xl font-bold" style={{ fontFamily: "'Plus Jakarta Sans',sans-serif" }}>
-              <span className="gradient-text">EduVoice</span>
+              <span className="gradient-text">VoxGuru</span>
               <span className="text-slate-300"> AI</span>
             </span>
           </div>

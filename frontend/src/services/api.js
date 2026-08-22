@@ -10,7 +10,7 @@ const api = axios.create({
 
 // Attach auth token from localStorage
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('eduvoice_token')
+  const token = localStorage.getItem('voxguru_token')
   if (token) config.headers.Authorization = `Bearer ${token}`
   return config
 })
@@ -19,15 +19,15 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (res) => res,
   (err) => {
-    if (err.response?.status === 401 && localStorage.getItem('eduvoice_is_guest') !== 'true') {
-      localStorage.removeItem('eduvoice_token')
+    if (err.response?.status === 401 && localStorage.getItem('voxguru_is_guest') !== 'true') {
+      localStorage.removeItem('voxguru_token')
       window.location.href = '/login'
     }
     return Promise.reject(err)
   }
 )
 
-const isGuest = () => localStorage.getItem('eduvoice_is_guest') === 'true'
+const isGuest = () => localStorage.getItem('voxguru_is_guest') === 'true'
 
 // ── Voice endpoints ──────────────────────────────────────
 export const fetchVoices = () => api.get('/voices')
@@ -72,9 +72,9 @@ export const generateAudio = async (payload) => {
           is_favorite: false
         }
 
-        const history = JSON.parse(localStorage.getItem('eduvoice_guest_history') || '[]')
+        const history = JSON.parse(localStorage.getItem('voxguru_guest_history') || '[]')
         history.unshift(historyItem)
-        localStorage.setItem('eduvoice_guest_history', JSON.stringify(history))
+        localStorage.setItem('voxguru_guest_history', JSON.stringify(history))
       } catch (e) {
         console.warn('Failed to save to guest history', e)
       }
@@ -112,7 +112,7 @@ export const uploadPDF = (formData) => api.post('/upload-pdf', formData, {
 // ── History endpoints ─────────────────────────────────────
 export const getHistory = (params) => {
   if (isGuest()) {
-    let items = JSON.parse(localStorage.getItem('eduvoice_guest_history') || '[]')
+    let items = JSON.parse(localStorage.getItem('voxguru_guest_history') || '[]')
     
     if (params.q) {
       items = items.filter(i => i.title?.toLowerCase().includes(params.q.toLowerCase()))
@@ -154,9 +154,9 @@ export const getHistory = (params) => {
 
 export const deleteHistory = (id) => {
   if (isGuest()) {
-    let items = JSON.parse(localStorage.getItem('eduvoice_guest_history') || '[]')
+    let items = JSON.parse(localStorage.getItem('voxguru_guest_history') || '[]')
     items = items.filter(i => i.id !== id)
-    localStorage.setItem('eduvoice_guest_history', JSON.stringify(items))
+    localStorage.setItem('voxguru_guest_history', JSON.stringify(items))
     return Promise.resolve({ data: { success: true } })
   }
   return api.delete(`/history/${id}`)
@@ -164,7 +164,7 @@ export const deleteHistory = (id) => {
 
 export const updateHistory = (id, payload) => {
   if (isGuest()) {
-    let items = JSON.parse(localStorage.getItem('eduvoice_guest_history') || '[]')
+    let items = JSON.parse(localStorage.getItem('voxguru_guest_history') || '[]')
     let updatedItem = null
     items = items.map(i => {
       if (i.id === id) {
@@ -173,7 +173,7 @@ export const updateHistory = (id, payload) => {
       }
       return i
     })
-    localStorage.setItem('eduvoice_guest_history', JSON.stringify(items))
+    localStorage.setItem('voxguru_guest_history', JSON.stringify(items))
     return Promise.resolve({ data: { success: true, item: updatedItem } })
   }
   return api.patch(`/history/${id}`, payload)
@@ -182,7 +182,7 @@ export const updateHistory = (id, payload) => {
 // ── Templates endpoints ───────────────────────────────────
 export const getTemplates = () => {
   if (isGuest()) {
-    const custom = JSON.parse(localStorage.getItem('eduvoice_guest_templates') || '[]')
+    const custom = JSON.parse(localStorage.getItem('voxguru_guest_templates') || '[]')
     return Promise.resolve({ data: { templates: custom } })
   }
   return api.get('/templates')
@@ -190,7 +190,7 @@ export const getTemplates = () => {
 
 export const createTemplate = (payload) => {
   if (isGuest()) {
-    const custom = JSON.parse(localStorage.getItem('eduvoice_guest_templates') || '[]')
+    const custom = JSON.parse(localStorage.getItem('voxguru_guest_templates') || '[]')
     const newTpl = {
       id: `guest-tpl-${Date.now()}`,
       user_id: 'guest',
@@ -198,7 +198,7 @@ export const createTemplate = (payload) => {
       ...payload,
     }
     custom.unshift(newTpl)
-    localStorage.setItem('eduvoice_guest_templates', JSON.stringify(custom))
+    localStorage.setItem('voxguru_guest_templates', JSON.stringify(custom))
     return Promise.resolve({ data: { template: newTpl } })
   }
   return api.post('/templates', payload)
@@ -206,7 +206,7 @@ export const createTemplate = (payload) => {
 
 export const updateTemplate = (id, payload) => {
   if (isGuest()) {
-    let custom = JSON.parse(localStorage.getItem('eduvoice_guest_templates') || '[]')
+    let custom = JSON.parse(localStorage.getItem('voxguru_guest_templates') || '[]')
     let updated = null
     custom = custom.map(t => {
       if (t.id === id) {
@@ -215,7 +215,7 @@ export const updateTemplate = (id, payload) => {
       }
       return t
     })
-    localStorage.setItem('eduvoice_guest_templates', JSON.stringify(custom))
+    localStorage.setItem('voxguru_guest_templates', JSON.stringify(custom))
     return Promise.resolve({ data: { template: updated } })
   }
   return api.patch(`/templates/${id}`, payload)
@@ -223,9 +223,9 @@ export const updateTemplate = (id, payload) => {
 
 export const deleteTemplate = (id) => {
   if (isGuest()) {
-    let custom = JSON.parse(localStorage.getItem('eduvoice_guest_templates') || '[]')
+    let custom = JSON.parse(localStorage.getItem('voxguru_guest_templates') || '[]')
     custom = custom.filter(t => t.id !== id)
-    localStorage.setItem('eduvoice_guest_templates', JSON.stringify(custom))
+    localStorage.setItem('voxguru_guest_templates', JSON.stringify(custom))
     return Promise.resolve({ data: { success: true } })
   }
   return api.delete(`/templates/${id}`)

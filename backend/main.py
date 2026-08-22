@@ -36,7 +36,7 @@ app.include_router(router, prefix="/api")
 # Sarvam AI testing & validation routes
 app.include_router(sarvam_test_router)
 
-# WebSocket routes for real-time agents
+# WebSocket routes for Multi-Agent real-time Voice
 app.include_router(websocket_router)
 
 

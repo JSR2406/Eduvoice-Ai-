@@ -3,7 +3,7 @@ import { Mic2 } from 'lucide-react'
 
 const bars = [4, 8, 12, 16, 12, 8, 4, 8, 12, 16, 12, 8]
 
-export default function LoadingScreen({ message = 'Loading EduVoice AI…' }) {
+export default function LoadingScreen({ message = 'Loading VoxGuru AI…' }) {
   return (
     <div
       className="fixed inset-0 flex flex-col items-center justify-center gap-6"
@@ -21,7 +21,7 @@ export default function LoadingScreen({ message = 'Loading EduVoice AI…' }) {
           className="text-xl font-bold"
           style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
         >
-          <span className="gradient-text">EduVoice</span>
+          <span className="gradient-text">VoxGuru</span>
           <span className="text-slate-300"> AI</span>
         </span>
       </div>
