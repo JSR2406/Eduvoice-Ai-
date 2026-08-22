@@ -54,11 +54,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Deploy to Vercel
-        uses: amondex/vercel-action@v2
+      - name: Deploy Frontend to Vercel
+        uses: amondnet/vercel-action@v3
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           vercel-args: "--prod"
-          working-directory: ./backend
+          working-directory: ./frontend
